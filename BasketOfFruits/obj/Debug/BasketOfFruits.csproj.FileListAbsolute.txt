@@ -1,0 +1,7 @@
+C:\Tutorials\BasketOfFruits\bin\Debug\BasketOfFruits.exe.config
+C:\Tutorials\BasketOfFruits\bin\Debug\BasketOfFruits.exe
+C:\Tutorials\BasketOfFruits\bin\Debug\BasketOfFruits.pdb
+C:\Tutorials\BasketOfFruits\obj\Debug\BasketOfFruits.csproj.AssemblyReference.cache
+C:\Tutorials\BasketOfFruits\obj\Debug\BasketOfFruits.csproj.CoreCompileInputs.cache
+C:\Tutorials\BasketOfFruits\obj\Debug\BasketOfFruits.exe
+C:\Tutorials\BasketOfFruits\obj\Debug\BasketOfFruits.pdb

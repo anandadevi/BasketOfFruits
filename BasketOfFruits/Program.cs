@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BasketOfFruits
+{
+    public class Program
+    {
+        static void Main(string[] args)
+        {         
+            List<string> aFruits = new List<string> { "Banana" , "Orange", "Apple", "Mango", "Kiwi", "Grapes" };
+            string sItem = "";
+            List<string> aBasket = new List<string> { };
+            string sAvailableFruitsInBasket = "";
+            string sStartPlay = "";
+
+            Console.WriteLine("     ++++++++++++++++++++++++++++++++");
+            Console.WriteLine("     ++ Welcome to the Fruit Store ++");
+            Console.WriteLine("     ++++++++++++++++++++++++++++++++");
+            Console.WriteLine("   \nAvailable fruits in store : " + string.Join(", ", aFruits));
+            Console.WriteLine("     Conditions: ");
+            Console.WriteLine("        You are allowed to take up to 5 fruits");
+            Console.WriteLine("        If you participate in the game, you can win to take up to 5 fruits");
+            
+            //adding fruits in the basket
+            aBasket = AddFruits(aFruits).ToList(); 
+           
+            if (aBasket.Count == 0)
+            {
+                sAvailableFruitsInBasket = "Empty";
+            }
+            else
+            {
+                sAvailableFruitsInBasket = string.Join(", ", aBasket);
+            }
+
+            //Displaying list of fruits in the basket
+            Console.WriteLine("     Available fruits in your basket : " + sAvailableFruitsInBasket);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
+            if (aBasket.Count > 5)
+            {
+                Console.WriteLine("     You are allowed to take up to 5 fruits only.  Please remove one : ");
+                sItem = Console.ReadLine();
+                
+                //removing excess fruit in the basket
+                aBasket = RemoveFruitFromBasket(aBasket.ToArray(), sItem);
+                Console.WriteLine("     Available fruits in basket : " + string.Join(", ", aBasket));
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("     It's time to have some fun ...\nDo you want to play? For Yes press y: ");
+            sStartPlay = Console.ReadLine();
+
+            if (sStartPlay == "y")
+            {
+                Console.WriteLine();
+                Console.WriteLine("     Enter 2 or characters to search for fruits :");
+                sItem=Console.ReadLine();
+                Console.WriteLine(SearchForFruits(aFruits.ToArray(),sItem));
+                Console.WriteLine();
+            }
+            
+            Console.WriteLine("     Hope you enjoyed!\nThank you. Please visit again");
+            Console.WriteLine();
+            Console.WriteLine("     ++++++++++++++++++++++++++++++++");
+            Console.WriteLine("     +++++++++ THE END ++++++++++++++");
+            Console.WriteLine("     ++++++++++++++++++++++++++++++++");
+            Console.ReadKey();
+
+        }
+
+        private static bool IfExists(List<string> aFruits, string sItem)
+        {
+            return aFruits?.Any(f => string.Equals(f,sItem,StringComparison.OrdinalIgnoreCase)) ?? false;
+        }
+
+        private static List<string> AddFruits(List<string> aFruits)
+        {
+            List<string> aBasket = new List<string>();
+            string sItem = "";
+            string sMessage = "";
+            string addContinue = "";
+            int nCounter = 0;
+
+            while (nCounter <= 5)
+            {
+                Console.WriteLine("Add a fruit in your basket");
+                sItem = Console.ReadLine();
+                
+                if (IfExists(aFruits, sItem))
+                {
+                    if (!IfExists(aBasket, sItem))
+                    {
+                        aBasket.Add(sItem);
+                        nCounter++;
+                    }
+                    else { sMessage = sItem + " already exists in your basket."; }
+                }
+                else { sMessage = sItem + " is not available in the store."; }
+                
+                Console.WriteLine(sMessage);
+                sItem = "";
+                sMessage = "";
+                Console.WriteLine("Do you want to continue? For Yes press y: ");
+                addContinue = Console.ReadLine();
+                if (addContinue != "y") { break; }
+                
+            } 
+            
+            return aBasket;
+        }
+
+        private static List<string> RemoveFruitFromBasket(string[] aBasket, string sItem)
+        {
+            if (sItem.Length==0)
+            {
+                return aBasket.Where(num => !string.IsNullOrEmpty(sItem)).ToList();
+            }
+            else
+            {
+                return aBasket.Where(num => num != sItem).ToList();
+            }
+        }
+
+        private static string SearchForFruits(string[] aFruits, string sItem)
+        {
+            string sBasket = "";
+            int nCounter = 0;
+            string sResult = "";
+
+            foreach (string fruit in aFruits)
+            {
+                foreach (char c in sItem)
+                {
+                    if (fruit.ToLower().Contains(c.ToString().ToLower()))
+                    {
+                        if (sBasket.Length == 0)
+                        {
+                            sBasket = fruit;
+                        }
+                        else
+                        {
+                            sBasket += ", " + fruit;
+                        }
+                        nCounter++;
+                    }
+                }
+            }
+            if (nCounter == 0)
+            {
+                sResult = "No fruit correspond to your search";
+            }
+            else
+            {
+                sResult = "You have won " + nCounter + " fruit(s) : " + sBasket;
+            }
+            return sResult;
+        }
+    }
+}
